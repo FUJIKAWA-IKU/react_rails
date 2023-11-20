@@ -3,8 +3,7 @@
 name: JipcodeのアップデートPRを作成する
 
 on:
-  schedule:
-    - cron: '*/1 * * * *' # 毎分5分ごとに実行する
+  workflow_dispatch: {}
 
 jobs:
   update-jipcode:
