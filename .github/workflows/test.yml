@@ -4,7 +4,7 @@ name: JipcodeのアップデートPRを作成する
 
 on:
   schedule:
-    - cron: '*/5 * * * *' # 毎分5分ごとに実行する
+    - cron: '*/3 * * * *' # 毎分5分ごとに実行する
 
 jobs:
   update-jipcode:
