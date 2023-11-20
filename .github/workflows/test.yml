@@ -1,0 +1,35 @@
+#Jipcode: https://github.com/rinkei/jipcode
+
+name: JipcodeのアップデートPRを作成する
+
+on:
+  schedule:
+    - cron: '*/5 * * * *' # 毎分5分ごとに実行する
+
+jobs:
+  update-jipcode:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.0'
+
+      - name: Update gems
+        run: |
+          gem install bundler -v 2.3.26
+          bundle update jipcode
+
+      - name: Jipcodeのアップデート
+        id: create-pr
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: Update gems
+          title: 'Jipcodeのアップデート'
+          body: 'Jipcodeのアップデート'
+          branch: update-jipcode-${{ github.run_id }}
