@@ -4,7 +4,7 @@ name: JipcodeのアップデートPRを作成する
 
 on:
   schedule:
-    - cron: '*/3 * * * *' # 毎分5分ごとに実行する
+    - cron: '*/1 * * * *' # 毎分5分ごとに実行する
 
 jobs:
   update-jipcode:
@@ -24,12 +24,16 @@ jobs:
           gem install bundler -v 2.3.26
           bundle update jipcode
 
-      - name: Jipcodeのアップデート
-        id: create-pr
+      - name: アップデート後のバージョンを取得する
+        id: get-version
+        run: echo "JIPCODE_VERSION=$(bundle info jipcode --path | grep -oP 'jipcode-(\K.*)')" >> $GITHUB_ENV
+
+      - name: JipcodeをアップデートするPRを作成する
         uses: peter-evans/create-pull-request@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: Update gems
-          title: 'Jipcodeのアップデート'
-          body: 'Jipcodeのアップデート'
-          branch: update-jipcode-${{ github.run_id }}
+          commit-message: Update Jipcode gem
+          title: 'Jipcodeが${{ env.JIPCODE_VERSION }}にアップデートされました'
+          body: 'Jipcode gemのアップデート'
+          branch: update-jipcode-${{ env.JIPCODE_VERSION }}
+
