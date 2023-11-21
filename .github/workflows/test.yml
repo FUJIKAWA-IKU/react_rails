@@ -25,7 +25,7 @@ jobs:
 
       - name: アップデート後のバージョンを取得する
         id: get-version
-        run: echo "JIPCODE_VERSION=$(bundle info jipcode --path | grep -o 'jipcode-(\K.*)')" >> $GITHUB_ENV
+        run: echo "JIPCODE_VERSION=$(bundle info jipcode --path | grep -o 'jipcode-\([^ ]*\)')" >> $GITHUB_ENV
 
       - name: JipcodeをアップデートするPRを作成する
         uses: peter-evans/create-pull-request@v3
