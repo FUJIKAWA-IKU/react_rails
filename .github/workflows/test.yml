@@ -25,14 +25,14 @@ jobs:
 
       - name: アップデート後のバージョンを取得する
         id: get-version
-        run: echo "JIPCODE_VERSION=$(bundle info jipcode --path | grep -oP 'jipcode-(\K.*)')" >> $GITHUB_ENV
+        run: echo "JIPCODE_VERSION=$(bundle info jipcode --path | grep -o 'jipcode-(\K.*)')" >> $GITHUB_ENV
 
       - name: JipcodeをアップデートするPRを作成する
         uses: peter-evans/create-pull-request@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: Update Jipcode gem
-          title: 'Jipcodeが${{ env.JIPCODE_VERSION }}にアップデートされました'
+          title: 'Update Jipcode v${{ env.JIPCODE_VERSION }}'
           body: 'Jipcode gemのアップデート'
           branch: update-jipcode-${{ env.JIPCODE_VERSION }}
 
