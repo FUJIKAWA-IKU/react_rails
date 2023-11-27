@@ -18,14 +18,18 @@ jobs:
         with:
           ruby-version: '3.0.0'
 
-      - name: Update gems
+      - name: Update Jipcode gem
         run: |
           gem install bundler -v 2.3.26
+          echo "JIPCODE_VERSION_BEFORE=$(bundle info jipcode --path | grep -oP 'jipcode-(\K.*)')" >> $GITHUB_ENV
+          
           bundle update jipcode
+          
+          echo "JIPCODE_VERSION_AFTER=$(bundle info jipcode --path | grep -oP 'jipcode-(\K.*)')" >> $GITHUB_ENV
 
-      - name: アップデート後のバージョンを取得する
-        id: get-version
-        run: echo "JIPCODE_VERSION=$(bundle info jipcode --path | grep -oP 'jipcode-(\K.*)')" >> $GITHUB_ENV
+      #      - name: アップデート後のバージョンを取得する
+      #        id: get-version
+      #        run: echo "JIPCODE_VERSION=$(bundle info jipcode --path | grep -oP 'jipcode-(\K.*)')" >> $GITHUB_ENV
 
       - name: JipcodeをアップデートするPRを作成する
         uses: peter-evans/create-pull-request@v3
@@ -33,6 +37,8 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: Update Jipcode gem
           title: 'Update Jipcode v${{ env.JIPCODE_VERSION }}'
-          body: 'Jipcode gemのアップデート'
-          branch: update-jipcode-${{ env.JIPCODE_VERSION }}
+          body: |
+            Jipcode gemのアップデート
+            https://github.com/rinkei/jipcode/compare/v${{ env.JIPCODE_VERSION_BEFORE }}...v${{ env.JIPCODE_VERSION_AFTER }}
 
+          branch: update-jipcode-${{ env.JIPCODE_VERSION }}
