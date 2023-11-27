@@ -23,6 +23,8 @@ jobs:
           gem install bundler -v 2.3.26
           echo "JIPCODE_VERSION_BEFORE=$(bundle info jipcode --path | grep -oP 'jipcode-(\K.*)')" >> $GITHUB_ENV
           
+          echo "bundle バージョン $(bundle --version)"
+          
           echo "アップデート前のバージョン$(bundle info jipcode --path)"
           
           bundle update jipcode
