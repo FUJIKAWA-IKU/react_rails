@@ -38,7 +38,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: Update Jipcode gem
-          title: 'Update Jipcode v${{ env.JIPCODE_VERSION }}'
+          title: 'Update Jipcode v${{ env.JIPCODE_VERSION_BEFORE }}'
           body: |
             Jipcode gemのアップデート
             https://github.com/rinkei/jipcode/compare/v${{ env.JIPCODE_VERSION_BEFORE }}...v${{ env.JIPCODE_VERSION_AFTER }}
